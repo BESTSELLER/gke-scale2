@@ -23,12 +23,10 @@ commands:
       - run:
           name: Download Cluster Service Account Credentials
           command: |
-            source ${BASH_ENV}
             vault kv get -field=data -format=json ES/gke/es02-prod > credentials.json
       - run:
           name: gloud login
           command: |
-            source ${BASH_ENV}
             gcloud auth activate-service-account --key-file=credentials.json
 
   gcloud_connect_cluster:
