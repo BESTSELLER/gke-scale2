@@ -53,9 +53,18 @@ jobs:
           command: |
             export CLUSTER_NAME=$(<< pipeline.parameters.cluster_name >> | awk '{print tolower($0)}')
             kubectl create jobs --from=cronjob/scaling-$ACTION-$CLUSTER_NAME override-scaling-$ACTION-$CLUSTER_NAME
-  
+workflows:
+  scale-my-pretty:
+    when: << pipeline.parameters.scale >>
+    jobs:
+      - scale:
+          context: es02-prod
+        
 
 parameters:
+  scale:
+    type: boolen
+    default: false
   action:
     type: enum
     default: up
