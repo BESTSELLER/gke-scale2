@@ -1,0 +1,65 @@
+version: 2.1
+
+orbs:
+    secret-injector: bestsellerit/secret-injector@0.2.32
+
+executors:
+    ci_image:
+      docker:
+        - image: harbor.bestsellerit.com/library/ci-image:latest
+
+
+commands:
+  vault_login:
+    description: Login user VAULT_USERNAME, VAULT_PASSWORD and VAULT_ADDR
+    steps:
+      - run:
+          name: Vault login
+          command: |
+            vault login -method=userpass username=$VAULT_USERNAME password=$VAULT_PASSWORD
+  gcloud_login:
+    description: Download cluster credentials and login into gcloud cli
+    steps:
+      - run:
+          name: Download Cluster Service Account Credentials
+          command: |
+            source ${BASH_ENV}
+            vault kv get -field=data -format=json ES/gke/es02-prod > credentials.json
+      - run:
+          name: gloud login
+          command: |
+            source ${BASH_ENV}
+            gcloud auth activate-service-account --key-file=credentials.json
+
+  gcloud_connect_cluster:
+    description: Connect to cluster
+    steps:
+      - run:
+          name: connect to the cluster
+          command: |
+            gcloud container clusters get-credentials es02-prod --project es-standalone-cb21 --zone europe-west4
+
+
+jobs:
+  scale:
+    executor: ci_image
+    steps:
+      - vault_login
+      - gcloud_login
+      - gcloud_connect_cluster
+
+      - run:
+          name: scaling cluster 
+          command: |
+            export CLUSTER_NAME=$(<< pipeline.parameters.cluster_name >> | awk '{print tolower($0)}')
+            kubectl create jobs --from=cronjob/scaling-$ACTION-$CLUSTER_NAME override-scaling-$ACTION-$CLUSTER_NAME
+  
+
+parameters:
+  action:
+    type: enum
+    default: up
+    enum: ["up","down"]
+  cluster_name:
+    type: string
+    default: ""
