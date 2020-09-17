@@ -63,7 +63,7 @@ workflows:
 
 parameters:
   scale:
-    type: boolen
+    type: boolean
     default: false
   action:
     type: enum
