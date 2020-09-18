@@ -51,7 +51,7 @@ jobs:
           command: |
             export CLUSTER_NAME=$(echo << pipeline.parameters.cluster_name >> | awk '{print tolower($0)}')
             export ACTION=<< pipeline.parameters.action >> 
-            kubectl create job --from=cronjob/scaling-$ACTION-$CLUSTER_NAME override-scaling-$ACTION-$CLUSTER_NAME
+            kubectl create job --from=cronjob/scaling-$ACTION-$CLUSTER_NAME override-scaling-$ACTION-$CLUSTER_NAME-$(date '+%Y-%m-%d_%H:%M:%S')
 workflows:
   scale-my-pretty:
     when: << pipeline.parameters.scale >>
