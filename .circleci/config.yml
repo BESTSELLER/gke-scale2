@@ -50,7 +50,7 @@ jobs:
           name: scaling cluster 
           command: |
             export CLUSTER_NAME=$(<< pipeline.parameters.cluster_name >> | awk '{print tolower($0)}')
-            export ACTION=<< pipeline.parameters.cluster_name >> 
+            export ACTION=<< pipeline.parameters.action >> 
             kubectl create jobs --from=cronjob/scaling-$ACTION-$CLUSTER_NAME override-scaling-$ACTION-$CLUSTER_NAME
 workflows:
   scale-my-pretty:
