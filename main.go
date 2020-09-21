@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	k8scontext := flag.String("context", "", "k8s context (Required)")
+	k8scontext := flag.String("context", "", "kubernetes context name (Required) - kubectl config get-contexts")
 	nodeCount := flag.Int("nodecount", 1, "The number of node you wish to scale to")
 
 	flag.Parse()
