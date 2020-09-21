@@ -1,73 +1,95 @@
 version: 2.1
 
 orbs:
-    secret-injector: bestsellerit/secret-injector@0.2.32
-
-executors:
-    ci_image:
-      docker:
-        - image: harbor.bestsellerit.com/library/ci-image:latest
-
+  secret-injector: bestsellerit/secret-injector@0.2.34
 
 commands:
-  vault_login:
-    description: Login user VAULT_USERNAME, VAULT_PASSWORD and VAULT_ADDR
+  goreleaser:
+    parameters:
+      release-type:
+        type: string
     steps:
       - run:
-          name: Vault login
+          name: Install GoReleaser
           command: |
-            vault login -method=userpass username=$VAULT_USERNAME password=$VAULT_PASSWORD
-  gcloud_login:
-    description: Download cluster credentials and login into gcloud cli
-    steps:
+            curl -sfL https://install.goreleaser.com/github.com/goreleaser/goreleaser.sh | sh
+            sudo mv ./bin/goreleaser /usr/bin/goreleaser
+            rm -rf ./bin
       - run:
-          name: Download Cluster Service Account Credentials
+          name: Import private key
           command: |
-            vault kv get -field=data -format=json ES/gke/es02-prod > credentials.json
+            source /tmp/secrets.env
+            echo -e "$GPG_PRIVATE_KEY" | base64 --decode > $HOME/private.key
+            gpg --pinentry-mode loopback --batch --yes --import $HOME/private.key
       - run:
-          name: gloud login
+          name: Run GoReleaser
           command: |
-            gcloud auth activate-service-account --key-file=credentials.json
-
-  gcloud_connect_cluster:
-    description: Connect to cluster
-    steps:
-      - run:
-          name: connect to the cluster
-          command: |
-            gcloud container clusters get-credentials es02-prod --project es-standalone-cb21 --zone europe-west4
+            source /tmp/secrets.env
+            if [ "<< parameters.release-type >>" = "test" ] ; then
+              goreleaser release --snapshot --rm-dist
+            else
+              goreleaser release --rm-dist
+            fi
 
 
 jobs:
-  scale:
-    executor: ci_image
+  build:
+    parameters:
+      release-type:
+        type: enum
+        enum: ["test", "release"]
+        default: "test"
+    docker:
+      - image: circleci/golang:1.15
     steps:
-      - vault_login
-      - gcloud_login
-      - gcloud_connect_cluster
+      - checkout
+      - attach_workspace:
+          at: /tmp
+      - goreleaser:
+          release-type: << parameters.release-type >>
 
-      - run:
-          name: scaling cluster 
-          command: |
-            export CLUSTER_NAME=$(echo << pipeline.parameters.cluster_name >> | awk '{print tolower($0)}')
-            export ACTION=<< pipeline.parameters.action >> 
-            kubectl create job --from=cronjob/scaling-$ACTION-$CLUSTER_NAME override-scaling-$ACTION-$CLUSTER_NAME-$(openssl rand -hex 12)
+
+tag_filter: &tag_filter /v[0-9]+.[0-9]+.[0-9]+/
+my_context: &my_context es02-prod
+
+dump_secrets: &dump_secrets
+  vault-path: ES/terraform-provider/prod
+  output-type: env
+
+test_filter: &test_filter
+  filters:
+    tags:
+      ignore: *tag_filter
+release_filter: &release_filter
+  filters:
+    branches:
+      ignore: /.*/
+    tags:
+      only: *tag_filter
+
 workflows:
-  scale-my-pretty:
-    when: << pipeline.parameters.scale >>
+  version: 2
+  tester:
     jobs:
-      - scale:
-          context: es02-prod
-        
-
-parameters:
-  scale:
-    type: boolean
-    default: false
-  action:
-    type: enum
-    default: up
-    enum: ["up","down"]
-  cluster_name:
-    type: string
-    default: ""
+      - secret-injector/dump-secrets:
+          <<: *dump_secrets
+          context: *my_context
+          <<: *test_filter
+      - build:
+          release-type: test
+          name: test
+          requires:
+            - secret-injector/dump-secrets
+          <<: *test_filter
+  build-n-release:
+    jobs:
+      - secret-injector/dump-secrets:
+          <<: *dump_secrets
+          context: *my_context
+          <<: *release_filter
+      - build:
+          name: build
+          release-type: release
+          requires:
+            - secret-injector/dump-secrets
+          <<: *release_filter
