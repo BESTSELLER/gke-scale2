@@ -1,5 +1,10 @@
-# gke-sacle2
+# gke-scale2
 
-usage.
+Allow you to quickly scale the node pool within GKE.
 
-gke-scale2 -context es02-dev
+## Usage.
+Get the name of kubernetes context the below command 
+`kubectx config get-contexts` or `kubectx`
+
+Now that you have the context name for the cluster you can scale the GKE deployment to the desired size
+`./gke-scale2 -context gke_project-name_here_location-here_cluster-name-here`
