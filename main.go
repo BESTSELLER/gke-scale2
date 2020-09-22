@@ -21,7 +21,7 @@ func main() {
 
 	k8scluster := k8s.Getk8sContext(*k8scontext)
 
-	fmt.Println(k8scluster.Cluster)
+	// fmt.Println(k8scluster.Cluster)
 	project := k8scluster.Project
 	location := k8scluster.Location
 	cluster := k8scluster.Name
@@ -31,11 +31,26 @@ func main() {
 	nodePools, err := gke.ListNodePools(clusterID)
 	if err != nil {
 		fmt.Println(err)
+		os.Exit(1)
 	}
 
+	fmt.Printf("You are about to scale the GKE cluster: %s\n", cluster)
 	for _, np := range nodePools {
-		fmt.Println("now scaling node pool:", np)
-		gke.ScaleNodePool(int32(*nodeCount), clusterID, np)
+		fmt.Printf("The node pool %s will scale to %v node/nodes per zone.\n", np, *nodeCount)
+	}
+
+	fmt.Printf("Type 'yes' to continue ")
+	var confirmation string
+	fmt.Scanln(&confirmation)
+
+	if confirmation == "yes" {
+		for _, np := range nodePools {
+			fmt.Println("Now scaling node pool:", np)
+			gke.ScaleNodePool(int32(*nodeCount), clusterID, np)
+		}
+	} else {
+		fmt.Println("Scaling has been canceled")
+		os.Exit(1)
 	}
 
 }
