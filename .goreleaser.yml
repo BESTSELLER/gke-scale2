@@ -16,15 +16,14 @@ builds:
   ldflags:
     - '-s -w -X main.version={{.Version}} -X main.commit={{.Commit}}'
   goos:
-    - freebsd
     - windows
     - linux
     - darwin
   goarch:
     - amd64
     - '386'
-    - arm
-    - arm64
+    # - arm
+    # - arm64
   ignore:
     - goos: darwin
       goarch: '386'
@@ -60,3 +59,5 @@ brews:
       name: gks-scale2
     url_template: "http://github.mycompany.com/foo/bar/releases/{{ .Tag }}/{{ .ArtifactName }}"
     download_strategy: CurlDownloadStrategy.
+    homepage: "https://www.bestseller.com"
+    description: "gke-scale2 allow you to quickly scale k8s cluster in google cloud"
