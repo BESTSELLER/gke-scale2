@@ -52,3 +52,11 @@ release:
   # draft: true
 changelog:
   skip: true
+
+brews:
+  - name: gke-scale2
+    tap:
+      owner: BESTSELLER
+      name: gks-scale2
+    url_template: "http://github.mycompany.com/foo/bar/releases/{{ .Tag }}/{{ .ArtifactName }}"
+    download_strategy: CurlDownloadStrategy.
