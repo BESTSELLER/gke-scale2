@@ -70,5 +70,5 @@ scoop:
   bucket:
     owner: BESTSELLER
     name: scoop-bucket
-    homepage: https://github.com/BESTSELLER/gke-scale2
-    description: "gke-scale2 allow you to quickly scale k8s cluster in google cloud"
+  homepage: https://github.com/BESTSELLER/gke-scale2
+  description: "gke-scale2 allow you to quickly scale k8s cluster in google cloud"
