@@ -8,12 +8,20 @@ The following application needs to be installed before execution of gke-scale2.
 * gcloud
 
 ## Installation
-* brew
+
+* homebrew
+  If you work on MacOS, you can install gke-scale2 via [brew](https://brew.sh/)
   ```
   brew tap BESTSELLER/homebrew-tap
   brew install gke-scale2
   ```
-
+  
+* scoop
+  If you work on Window platform, you can install gke-scale2 via [scoop](https://scoop.sh/)
+  ```
+  scoop bucket add bestseller https://github.com/BESTSELLER/scoop-bucket
+  scoop install gke-scale2
+  ```
 
 ## Usage.
 Make sure you are logged into gcp via the below command
