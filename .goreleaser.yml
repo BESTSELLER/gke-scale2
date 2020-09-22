@@ -53,11 +53,15 @@ changelog:
   skip: true
 
 brews:
-  - name: gke-scale2
-    tap:
+  - 
+    ids:
+      - gke-scale2
+    name: gke-scale2
+    github:
       owner: BESTSELLER
-      name: gks-scale2
-    url_template: "http://github.mycompany.com/foo/bar/releases/{{ .Tag }}/{{ .ArtifactName }}"
+      name: brew-tap
+    folder: Formule
     download_strategy: CurlDownloadStrategy.
     homepage: "https://www.bestseller.com"
     description: "gke-scale2 allow you to quickly scale k8s cluster in google cloud"
+    # url_template: "http://github.mycompany.com/foo/bar/releases/{{ .Tag }}/{{ .ArtifactName }}"
