@@ -8,8 +8,9 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/zclconf/go-cty-yaml v1.0.2
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
-	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43 // indirect
+	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43
 	golang.org/x/time v0.0.0-20200630173020-3af7569d3a1e // indirect
+	google.golang.org/api v0.30.0
 	google.golang.org/genproto v0.0.0-20200825200019-8632dd797987
 	gopkg.in/yaml.v2 v2.3.0
 	k8s.io/apimachinery v0.19.2 // indirect

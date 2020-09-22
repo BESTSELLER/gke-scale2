@@ -3,6 +3,7 @@ package k8s
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"runtime"
 	"strings"
 
@@ -34,9 +35,12 @@ func Getk8sContext(clusterName string) models.K8sCluster {
 			cluster.Project = c[1]
 			cluster.Location = c[2]
 			cluster.Name = c[3]
-
 		}
+	}
 
+	if cluster.Name == "" {
+		fmt.Printf("Was unabled to cluster %s in kube/config \n", clusterName)
+		os.Exit(1)
 	}
 
 	return cluster
