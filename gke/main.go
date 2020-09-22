@@ -30,12 +30,13 @@ func ScaleNodePool(nodeCount int32, clusterID string, nodePool string) {
 
 func ListNodePools(clusterID string) (nodePools []string, err error) {
 	ctx := context.Background()
+	// c, err := google.DefaultClient(ctx, container.ClusterManagerClient)
 	c, err := container.NewClusterManagerClient(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println(clusterID)
+	// fmt.Println(clusterID)
 	req := &containerpb.ListNodePoolsRequest{
 		Parent: clusterID,
 	}
