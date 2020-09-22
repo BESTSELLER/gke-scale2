@@ -65,7 +65,7 @@ brews:
     name: gke-scale2
     github:
       owner: BESTSELLER
-      name: brew-tap
+      name: gke-scale2
     folder: Formule
     download_strategy: CurlDownloadStrategy.
     homepage: "https://www.bestseller.com"
