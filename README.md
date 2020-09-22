@@ -2,7 +2,16 @@
 
 Allow you to quickly scale the node pool within GKE.
 
+## Prerequirement
+The following application needs to be installed before execution of gke-scale2.
+* kubectl
+* gcloud
+
+
 ## Usage.
+Make sure you are logged into gcp via the below command
+` gcloud auth application-default login`
+
 Get the name of kubernetes context by using the following command. 
 `kubectl config get-contexts` or `kubectx`
 
