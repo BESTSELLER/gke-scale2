@@ -7,9 +7,17 @@ The following application needs to be installed before execution of gke-scale2.
 * kubectl
 * gcloud
 
+## Installation
+* brew
+  ```
+  brew tap BESTSELLER/homebrew-tap
+  brew install gke-scale2
+  ```
+
 
 ## Usage.
 Make sure you are logged into gcp via the below command
+
 ` gcloud auth application-default login`
 
 Get the name of kubernetes context by using the following command. 
