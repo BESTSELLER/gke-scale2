@@ -59,7 +59,7 @@ changelog:
   skip: true
 
 brews:
-  - github:
+  - tap:
       owner: BESTSELLER
       name: homebrew-tap
     folder: Formula
