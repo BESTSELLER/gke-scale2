@@ -10,6 +10,7 @@ The following application needs to be installed before execution of gke-scale2.
 ## Installation
 
 * homebrew
+  
   If you work on MacOS, you can install gke-scale2 via [brew](https://brew.sh/)
   ```
   brew tap BESTSELLER/homebrew-tap
@@ -17,6 +18,7 @@ The following application needs to be installed before execution of gke-scale2.
   ```
   
 * scoop
+  
   If you work on Window platform, you can install gke-scale2 via [scoop](https://scoop.sh/)
   ```
   scoop bucket add bestseller https://github.com/BESTSELLER/scoop-bucket
@@ -24,7 +26,17 @@ The following application needs to be installed before execution of gke-scale2.
   ```
 
 * binary
+  
   You can download the latest version from the [release page](https://github.com/BESTSELLER/gke-scale2/releases/latest)
+
+* soure code
+  
+  You can install from source code
+  ```
+  go get -u -v github.com/BESTSELLER/gke-scale2
+  
+  go install -a -v github.com/BESTSELLER/gke-scale2
+  ```
 
 ## Usage.
 Make sure you are logged into gcp via the below command
