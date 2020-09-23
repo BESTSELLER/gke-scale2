@@ -23,6 +23,9 @@ The following application needs to be installed before execution of gke-scale2.
   scoop install gke-scale2
   ```
 
+* binary
+  You can download the latest version from the [release page](https://github.com/BESTSELLER/gke-scale2/releases/latest)
+
 ## Usage.
 Make sure you are logged into gcp via the below command
 
