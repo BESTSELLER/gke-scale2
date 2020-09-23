@@ -74,17 +74,17 @@ scoop:
   description: "gke-scale2 allow you to quickly scale k8s cluster in google cloud"
 
 
-snapcrafts:
-  -
-    name_template: '{{ .ProjectName }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
-    summary: A small go app that allows you to scale gke scale quickly
-    description: "gke-scale2 allow you to quickly scale k8s cluster in google cloud"
-    grade: stable
-    confinement: strict
-    publish: true
-    name: gke-scale2
-    license: MIT
-    replacements:
-      amd64: 64-bit
-      386: 32-bit
-      darwin: MacOS
+# snapcrafts:
+#   -
+#     name_template: '{{ .ProjectName }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+#     summary: A small go app that allows you to scale gke scale quickly
+#     description: "gke-scale2 allow you to quickly scale k8s cluster in google cloud"
+#     grade: stable
+#     confinement: strict
+#     publish: true
+#     name: gke-scale2
+#     license: MIT
+#     replacements:
+#       amd64: 64-bit
+#       386: 32-bit
+#       darwin: MacOS
