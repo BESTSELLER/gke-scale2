@@ -39,6 +39,7 @@ func main() {
 	nodePools, err := gke.ListNodePools(clusterID)
 	if err != nil {
 		fmt.Println(err)
+		fmt.Println("Please run the below command to login.\ngcloud auth application-default login")
 		os.Exit(1)
 	}
 
