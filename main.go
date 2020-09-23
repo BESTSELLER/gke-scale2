@@ -9,12 +9,12 @@ import (
 	"github.com/BESTSELLER/gke-sacle2/k8s"
 )
 
+var version = "development"
+
 func main() {
 	k8scontext := flag.String("context", "", "kubernetes context name (Required) - kubectl config get-contexts")
 	nodeCount := flag.Int("nodecount", 1, "The number of node you wish to scale to")
 	v := flag.Bool("version", false, "Print the version of gke-scale2")
-
-	var version = "development"
 
 	flag.Parse()
 	if *v {
