@@ -77,6 +77,7 @@ scoop:
 snapcrafts:
   -
     name_template: '{{ .ProjectName }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    summary: A small go app that allows you to scale gke scale quickly
     description: "gke-scale2 allow you to quickly scale k8s cluster in google cloud"
     grade: stable
     confinement: strict
