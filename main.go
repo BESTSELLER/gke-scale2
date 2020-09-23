@@ -18,7 +18,7 @@ func main() {
 
 	flag.Parse()
 	if *v {
-		fmt.Printf("gke-scale2: %s", version)
+		fmt.Println("gke-scale2: " + version)
 		os.Exit(0)
 	}
 
