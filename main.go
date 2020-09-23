@@ -12,13 +12,13 @@ import (
 func main() {
 	k8scontext := flag.String("context", "", "kubernetes context name (Required) - kubectl config get-contexts")
 	nodeCount := flag.Int("nodecount", 1, "The number of node you wish to scale to")
-	version := flag.Bool("version", false, "Print the version of gke-scale2")
+	v := flag.Bool("version", false, "Print the version of gke-scale2")
 
-	var appVersion = "development"
+	var version = "development"
 
 	flag.Parse()
-	if *version {
-		fmt.Printf("gke-scale2: %s", appVersion)
+	if *v {
+		fmt.Printf("gke-scale2: %s", version)
 		os.Exit(0)
 	}
 
