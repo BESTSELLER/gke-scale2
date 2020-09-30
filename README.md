@@ -43,6 +43,12 @@ Make sure you are logged into gcp via the below command
 
 ` gcloud auth application-default login`
 
+Or the environment variable GOOGLE_APPLICATION_CREDENTIALS is set
+
+`export GOOGLE_APPLICATION_CREDENTIALS="/path/to/key.json"`
+
+<br/>
+
 Get the name of kubernetes context by using the following command. 
 `kubectl config get-contexts` or `kubectx`
 
