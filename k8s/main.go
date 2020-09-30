@@ -3,8 +3,8 @@ package k8s
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
-	"runtime"
 	"strings"
 
 	"github.com/BESTSELLER/gke-sacle2/models"
@@ -15,7 +15,7 @@ import (
 func Getk8sContext(clusterName string) models.K8sCluster {
 	content, err := ioutil.ReadFile(getConfigFile())
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	var yamlData models.K8sContext
@@ -48,16 +48,11 @@ func Getk8sContext(clusterName string) models.K8sCluster {
 
 func getConfigFile() (configFile string) {
 	var k8sConfigFile string
-	var err error
-	os := runtime.GOOS
 
-	switch os {
-	case "darwin":
-		k8sConfigFile, err = homedir.Expand("~/.kube/config")
+	k8sConfigFile, err := homedir.Expand("~/.kube/config")
 
-	}
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	return k8sConfigFile
